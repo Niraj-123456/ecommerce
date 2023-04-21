@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
@@ -17,11 +17,94 @@
 }
 
 body {
+  font-family: "ProductSans", sans-serif;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: #5840bb;
+  width: 100%;
+}
+
+body,
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "ProductSans-Light";
+  src: url("../assets/font/ProductSans-Light.ttf");
+}
+
+@font-face {
+  font-family: "ProductSans-Regular";
+  src: url("../assets/font/ProductSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: "ProductSans-Medium";
+  src: url("../assets/font/ProductSans-Medium.ttf");
+}
+
+@font-face {
+  font-family: "ProductSans-Bold";
+  src: url("../assets/font/ProductSans-Bold.ttf");
+}
+
+@layer components {
+  .side__navigation__links {
+    @apply flex items-center gap-5 px-4 py-3 text-[#fff] font-semibold relative rounded-l-[15px] cursor-pointer mt-4;
+  }
+
+  .active__link {
+    @apply text-black bg-white;
+  }
+
+  .custom__border__radius {
+    @apply rounded-tl-3xl rounded-br-3xl rounded-bl-md rounded-tr-md;
+  }
+
+  .custom__border__radius__2 {
+    @apply rounded-tr-3xl rounded-bl-3xl rounded-br-md rounded-tl-md;
+  }
+
+  .custom__border__radius__md {
+    @apply rounded-tl-3xl rounded-br-3xl rounded-bl-md rounded-tr-md;
+  }
+
+  .custom__border__radius__sm {
+    @apply rounded-tl-xl rounded-br-xl rounded-bl-sm rounded-tr-sm;
+  }
+
+  .custom__border__radius__xs {
+    @apply rounded-tl-md rounded-br-md rounded-bl-sm rounded-tr-sm;
+  }
+
+  .side__navigation__links::after,
+  .side__navigation__links::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 0 0 15px 0;
+    z-index: -1;
+    background: transparent;
+  }
+
+  .side__navigation__links::before {
+    top: auto;
+    bottom: -20px;
+    border-radius: 0 15px 0 0;
+  }
+
+  .side__navigation__links.active__link::after {
+    box-shadow: 3px 6px 0 0 #fff;
+  }
+
+  .side__navigation__links.active__link::before {
+    box-shadow: 3px -6px 0 0 #fff;
+  }
 }
