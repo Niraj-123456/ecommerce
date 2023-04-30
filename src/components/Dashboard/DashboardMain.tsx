@@ -62,7 +62,7 @@ const Profit = () => (
 
 const DashboardMain = () => {
   return (
-    <div className="mt-5 w-[60%]">
+    <div className="mt-5 w-[60%] flex flex-col">
       <div className="flex gap-4 mt-5">
         <div className="flex items-start gap-3 bg-[#C7F2FF] w-max px-3 py-5 custom__border__radius">
           <div className="flex gap-5 items-center">

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import styles from "./dashboard.module.css";
 import Image from "next/image";
 
+import { useRouter } from "next/router";
 import { Menu, MenuItem } from "@mui/material";
+import { signOut } from "next-auth/react";
 
 const Search = () => (
   <svg
@@ -42,6 +44,7 @@ const Bell = () => (
 );
 
 const DashboardHeader = () => {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -53,6 +56,15 @@ const DashboardHeader = () => {
   // handle user menu close
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleSignOut = () => {
+    try {
+      signOut();
+      router.push("/");
+    } catch (ex) {
+      console.log(ex);
+    }
   };
   return (
     <div className="w-full flex justify-between">
@@ -86,6 +98,7 @@ const DashboardHeader = () => {
             src="/images/profile.webp"
             alt="profile"
             fill
+            sizes={"54*54"}
             style={{ objectFit: "cover", cursor: "pointer" }}
           />
         </div>
@@ -125,7 +138,7 @@ const DashboardHeader = () => {
         >
           <MenuItem>Profile</MenuItem>
           <MenuItem>Settings</MenuItem>
-          <MenuItem onClick={() => console.log("logout")}>Logout</MenuItem>
+          <MenuItem onClick={handleSignOut}>Logout</MenuItem>
         </Menu>
       </div>
     </div>

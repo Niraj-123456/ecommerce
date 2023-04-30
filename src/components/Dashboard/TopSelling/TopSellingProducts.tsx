@@ -5,7 +5,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const TopSellingProducts = () => {
   return (
-    <div className="w-[40%] p-10">
+    <>
       <div className="flex justify-between items-center">
         <h1 className="font-bold text-lg">Top selling products</h1>
         <div className="text-md font-semibold">
@@ -23,6 +23,7 @@ const TopSellingProducts = () => {
               src="/images/tshirt-1.png"
               alt="t-shirt"
               fill
+              sizes={"54*54"}
               style={{ objectFit: "cover" }}
             />
           </div>
@@ -38,6 +39,7 @@ const TopSellingProducts = () => {
               src="/images/tshirt-2.jpg"
               alt="t-shirt"
               fill
+              sizes={"54*54"}
               style={{ objectFit: "cover" }}
             />
           </div>
@@ -53,6 +55,7 @@ const TopSellingProducts = () => {
               src="/images/tshirt-3.webp"
               alt="t-shirt"
               fill
+              sizes={"54*54"}
               style={{ objectFit: "cover" }}
             />
           </div>
@@ -68,6 +71,7 @@ const TopSellingProducts = () => {
               src="/images/tshirt-4.avif"
               alt="t-shirt"
               fill
+              sizes={"54*54"}
               style={{ objectFit: "cover" }}
             />
           </div>
@@ -77,7 +81,7 @@ const TopSellingProducts = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
