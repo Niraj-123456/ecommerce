@@ -4,7 +4,7 @@ const { hostname } = require("os");
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["tailwindui.com", "fakestoreapi.com"],
+    domains: ["tailwindui.com", "fakestoreapi.com", "images.unsplash.com"],
   },
 };
 

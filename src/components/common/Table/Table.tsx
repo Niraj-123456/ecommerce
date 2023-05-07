@@ -46,7 +46,7 @@ const Table: React.FC<TableProps> = ({
 }) => {
   const tableColumn = useMemo(() => columns, [columns]);
   const tableData = useMemo(() => data, [data]);
-  const tableInstance = useTable(
+  const tableInstance = useTable<Data>(
     {
       columns: tableColumn,
       data: tableData,
@@ -78,10 +78,10 @@ const Table: React.FC<TableProps> = ({
       {!loading ? (
         <table
           {...getTableProps()}
-          style={customStyles.table}
+          style={customStyles?.table}
           className={styles.table}
         >
-          <thead style={customStyles.thead}>
+          <thead style={customStyles?.thead}>
             {
               // Loop over the header rows
               headerGroups.map((headerGroup, index) => (
@@ -89,7 +89,7 @@ const Table: React.FC<TableProps> = ({
                 <tr
                   {...headerGroup.getHeaderGroupProps()}
                   key={index}
-                  style={customStyles.tr}
+                  style={customStyles?.tr}
                 >
                   {
                     // Loop over the headers in each row
@@ -98,7 +98,7 @@ const Table: React.FC<TableProps> = ({
                       <th
                         {...column.getHeaderProps()}
                         key={index}
-                        style={customStyles.th}
+                        style={customStyles?.th}
                       >
                         {
                           // Render the header
@@ -113,7 +113,7 @@ const Table: React.FC<TableProps> = ({
           </thead>
           {/* Apply the table body props */}
 
-          <tbody {...getTableBodyProps()} style={customStyles.tbody}>
+          <tbody {...getTableBodyProps()} style={customStyles?.tbody}>
             {
               // Loop over the table rows
               page.map((row: any, index: number) => {
@@ -124,7 +124,7 @@ const Table: React.FC<TableProps> = ({
                   <tr
                     {...row.getRowProps()}
                     key={index}
-                    style={customStyles.tr}
+                    style={customStyles?.tr}
                   >
                     {
                       // Loop over the rows cells
@@ -134,7 +134,7 @@ const Table: React.FC<TableProps> = ({
                           <td
                             {...cell.getCellProps()}
                             key={index}
-                            style={customStyles.td}
+                            style={customStyles?.td}
                           >
                             {
                               // Render the cell contents

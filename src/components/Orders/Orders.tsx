@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import {
@@ -9,7 +10,9 @@ import {
 
 import MainLayout from "../layout/MainLayout/MainLayout";
 import Table from "../common/Table/Table";
+import ProductDetailModel from "../Products/ProductDetail";
 import { fetchProducts } from "@/pages/api/orders/orders";
+import Link from "next/link";
 
 const styles = {
   table: {
@@ -24,42 +27,43 @@ const styles = {
     textAlign: "center",
   },
 
-  th: {
-    fontSize: 14,
-    fontWeight: 600,
-    borderBottom: "solid 2px rgba(0, 0, 0, 0.1)",
-    padding: "10px 7px",
-  },
+  th: {},
 
-  td: {
-    fontSize: 12,
-    borderBottom: "solid 2px rgba(0, 0, 0, 0.1)",
-    padding: "3px 7px",
-  },
+  td: {},
 };
 
-const Orders = () => {
+const Orders = ({ orders }: any) => {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
-  const [orders, setOrders] = useState<[]>([]);
+  // const [orders, setOrders] = useState<[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function getProducts() {
-      try {
-        const data = await fetchProducts();
-        if (data.length) {
-          setLoading(false);
-          setOrders(data);
-        } else {
-          setLoading(false);
-          setOrders([]);
-        }
-      } catch (ex) {
-        setLoading(false);
-        console.log(ex);
-      }
-    }
-    getProducts();
-  }, []);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // useEffect(() => {
+  //   async function getProducts() {
+  //     try {
+  //       const data = await fetchProducts();
+  //       if (data.length) {
+  //         setLoading(false);
+  //         setOrders(data);
+  //       } else {
+  //         setLoading(false);
+  //         setOrders([]);
+  //       }
+  //     } catch (ex) {
+  //       setLoading(false);
+  //       console.log(ex);
+  //     }
+  //   }
+  //   getProducts();
+  // }, []);
 
   const columns = [
     {
@@ -87,6 +91,9 @@ const Orders = () => {
     {
       Header: "Price",
       accessor: "price",
+      Cell: ({ cell: { value } }) => (
+        <span style={{ whiteSpace: "pre" }}>$ {value}</span>
+      ),
     },
     {
       Header: "Image",
@@ -120,7 +127,7 @@ const Orders = () => {
         Header: "Actions",
         accessor: "actions",
         disableSortBy: true,
-        Cell: (_) => {
+        Cell: ({ row: { original } }) => {
           return (
             <span
               style={{
@@ -130,18 +137,36 @@ const Orders = () => {
                 position: "relative",
               }}
             >
+              <Link
+                href={{ pathname: "/orders/[id]", query: { id: original.id } }}
+                passHref
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconButton
+                  size="small"
+                  onClick={() =>
+                    router.push(
+                      { pathname: "/orders/[id]", query: { id: original.id } },
+                      undefined,
+                      {
+                        shallow: false,
+                      }
+                    )
+                  }
+                >
+                  <Tooltip title="View" placement="top" arrow>
+                    <VisibilityOutlined color="primary" fontSize="small" />
+                  </Tooltip>
+                </IconButton>
+              </Link>
               <IconButton size="small">
-                <Tooltip title="view" placement="top" arrow>
-                  <VisibilityOutlined color="primary" fontSize="small" />
-                </Tooltip>
-              </IconButton>
-              <IconButton size="small">
-                <Tooltip title="edit" placement="top" arrow>
+                <Tooltip title="Edit" placement="top" arrow>
                   <BorderColorOutlined fontSize="small" />
                 </Tooltip>
               </IconButton>
               <IconButton size="small">
-                <Tooltip title="delete" placement="top" arrow>
+                <Tooltip title="Delete" placement="top" arrow>
                   <DeleteOutline color="error" fontSize="small" />
                 </Tooltip>
               </IconButton>
@@ -158,11 +183,12 @@ const Orders = () => {
         <Table
           columns={columns}
           data={orders}
-          loading={loading}
+          // loading={loading}
           customColumn={customColumn}
           customStyles={styles}
         />
       </Box>
+      <ProductDetailModel open={open} handleClose={handleClose} />
     </MainLayout>
   );
 };

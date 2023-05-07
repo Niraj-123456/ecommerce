@@ -1,9 +1,20 @@
 import React from "react";
+import { GetServerSideProps } from "next";
 
 import Products from "@/components/Products/Products";
+import { getAllProducts } from "../api/products/products";
 
-const index = () => {
-  return <Products />;
+export const getServerSideProps: GetServerSideProps = async () => {
+  const data = await getAllProducts();
+  return {
+    props: {
+      products: data,
+    },
+  };
 };
 
-export default index;
+const ProductsPage = ({ products }: any) => {
+  return <Products products={products} />;
+};
+
+export default ProductsPage;

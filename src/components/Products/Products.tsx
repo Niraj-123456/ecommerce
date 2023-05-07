@@ -2,6 +2,27 @@ import React from "react";
 
 import MainLayout from "../layout/MainLayout/MainLayout";
 import ProductCard from "./ProductCard";
+import Table from "../common/Table/Table";
+import Image from "next/image";
+import Link from "next/link";
+import { IconButton, Tooltip } from "@mui/material";
+import {
+  BorderColorOutlined,
+  DeleteOutline,
+  VisibilityOutlined,
+} from "@mui/icons-material";
+
+interface Product {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  price: string;
+  image: string;
+  rating: {
+    rate: number;
+  };
+}
 
 const products = [
   {
@@ -140,10 +161,111 @@ const products = [
   // More products...
 ];
 
-const Products = () => {
+const columns = [
+  {
+    Header: "ID",
+    accessor: "id",
+    Cell: ({ cell: { value } }) => (
+      <span style={{ fontWeight: "600" }}>{value}</span>
+    ),
+  },
+  {
+    Header: "Title",
+    accessor: "title",
+  },
+  {
+    Header: "Category",
+    accessor: "category",
+    Cell: ({ cell: { value } }) => (
+      <span style={{ textTransform: "capitalize" }}>{value}</span>
+    ),
+  },
+  {
+    Header: "Description",
+    accessor: "description",
+  },
+  {
+    Header: "Price",
+    accessor: "price",
+    Cell: ({ cell: { value } }) => (
+      <span style={{ whiteSpace: "pre" }}>$ {value}</span>
+    ),
+  },
+  {
+    Header: "Image",
+    accessor: "image",
+    Cell: ({ row: { original } }) => (
+      <Image
+        src={original?.image}
+        alt={original?.title}
+        width={150}
+        height={150}
+        style={{
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+      />
+    ),
+  },
+  {
+    Header: "Rating",
+    accessor: "rating.rate",
+    Cell: ({ cell: { value } }) => {
+      return <span>{value}</span>;
+    },
+  },
+];
+
+const customColumn = (hooks: any) => {
+  hooks.visibleColumns.push((column: any) => [
+    ...column,
+    {
+      Header: "Actions",
+      accessor: "actions",
+      disableSortBy: true,
+      Cell: ({ row: { original } }) => {
+        return (
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              cursor: "pointer",
+              position: "relative",
+            }}
+          >
+            <Link
+              href={{ pathname: "/products/[id]", query: { id: original.id } }}
+              passHref
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconButton size="small">
+                <Tooltip title="View" placement="top" arrow>
+                  <VisibilityOutlined color="primary" fontSize="small" />
+                </Tooltip>
+              </IconButton>
+            </Link>
+            <IconButton size="small">
+              <Tooltip title="Edit" placement="top" arrow>
+                <BorderColorOutlined fontSize="small" />
+              </Tooltip>
+            </IconButton>
+            <IconButton size="small">
+              <Tooltip title="Delete" placement="top" arrow>
+                <DeleteOutline color="error" fontSize="small" />
+              </Tooltip>
+            </IconButton>
+          </span>
+        );
+      },
+    },
+  ]);
+};
+
+const Products = ({ products }) => {
   return (
     <MainLayout>
-      <div className="mt-7">
+      {/* <div className="mt-7">
         <label className="font-semibold">Category: </label>
         <select className="border custom__border__radius__md py-2 px-3">
           <option>T-shirts</option>
@@ -155,6 +277,9 @@ const Products = () => {
             <ProductCard key={product?.id} product={product} />
           ))}
         </div>
+      </div> */}
+      <div className="mt-6">
+        <Table columns={columns} data={products} customColumn={customColumn} />
       </div>
     </MainLayout>
   );

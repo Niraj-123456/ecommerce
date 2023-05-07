@@ -8,12 +8,14 @@ import {
   CampaignOutlined,
   StarRateOutlined,
   ReportOutlined,
+  Category,
 } from "@mui/icons-material";
 
 const linkOptions = [
   { name: "Dashboard", pathname: "/dashboard", icon: <DashboardOutlined /> },
-  { name: "Orders", pathname: "/orders", icon: <ReceiptLongOutlined /> },
   { name: "Products", pathname: "/products", icon: <ShoppingCartOutlined /> },
+  { name: "Categories", pathname: "/categories", icon: <Category /> },
+  { name: "Orders", pathname: "/orders", icon: <ReceiptLongOutlined /> },
   { name: "Marketing", pathname: "/marketing", icon: <CampaignOutlined /> },
   { name: "Rates", pathname: "/rates", icon: <StarRateOutlined /> },
   { name: "Reports", pathname: "/reports", icon: <ReportOutlined /> },
